@@ -1,4 +1,5 @@
 import React from 'react'
+import Book from './Book.js';
 
 const Header = (props) => (
     <h1>{props.title}</h1>
@@ -32,7 +33,7 @@ export default class App extends React.Component {
     }
 
     handleAddBook() {
-        fetch(`/book`,
+        fetch(`/api/book`,
             {method: 'POST',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(this.state.newBook)
@@ -43,7 +44,7 @@ export default class App extends React.Component {
 
     handleSaveBook(id) {
         var book = this.state.books.find(a => a.id === id);
-        fetch(`/book/${id}`,
+        fetch(`/api/book/${id}`,
             {method: 'PUT',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(book)
@@ -52,15 +53,13 @@ export default class App extends React.Component {
     }
 
     handleDeleteBookRow(id) {
-        fetch(`/book/${id}`, {method: 'DELETE'})
+        fetch(`/api/book/${id}`, {method: 'DELETE'})
             .then(() => this.refreshBooks())
-            .then(() => this.refreshComments())
-            .then(() => this.refreshAuthors())
-            .then(() => this.refreshGenres());
+            .then(() => this.refreshComments());
     }
 
     refreshBooks() {
-        fetch('/api/books')
+        fetch('/api/book')
             .then(response => response.json())
             .then(books => this.setState({books}));
     }
@@ -96,7 +95,7 @@ export default class App extends React.Component {
 
     handleSaveAuthor(id) {
         var author = this.state.authors.find(a => a.id === id);
-        fetch(`/author/${id}`,
+        fetch(`/api/author/${id}`,
             {method: 'PUT',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(author)
@@ -106,13 +105,13 @@ export default class App extends React.Component {
     }
 
     handleDeleteAuthorRow(id) {
-        fetch(`/author/${id}`, {method: 'DELETE'})
+        fetch(`/api/author/${id}`, {method: 'DELETE'})
             .then(() => this.refreshAuthors())
             .then(() => this.refreshBooks());
     }
 
     refreshAuthors() {
-        fetch('/api/authors')
+        fetch('/api/author')
             .then(response => response.json())
             .then(authors => this.setState({authors}));
     }
@@ -126,7 +125,7 @@ export default class App extends React.Component {
 
     handleSaveGenre(id) {
         var genre = this.state.genres.find(a => a.id === id);
-        fetch(`/genre/${id}`,
+        fetch(`/api/genre/${id}`,
             {method: 'PUT',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(genre)
@@ -136,13 +135,13 @@ export default class App extends React.Component {
     }
 
     handleDeleteGenreRow(id) {
-        fetch(`/genre/${id}`, {method: 'DELETE'})
+        fetch(`/api/genre/${id}`, {method: 'DELETE'})
             .then(() => this.refreshGenres())
             .then(() => this.refreshBooks());
     }
 
     refreshGenres() {
-        fetch('/api/genres')
+        fetch('/api/genre')
             .then(response => response.json())
             .then(genres => this.setState({genres}));
     }
@@ -162,7 +161,7 @@ export default class App extends React.Component {
 
     handleSaveComment(id) {
         var comment = this.state.comments.find(a => a.id === id);
-        fetch(`/comment/${id}`,
+        fetch(`/api/comment/${id}`,
             {method: 'PUT',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(comment)
@@ -171,12 +170,12 @@ export default class App extends React.Component {
     }
 
     handleDeleteCommentRow(id) {
-        fetch(`/comment/${id}`, {method: 'DELETE'})
+        fetch(`/api/comment/${id}`, {method: 'DELETE'})
             .then(() => this.refreshComments());
     }
 
     refreshComments() {
-        fetch('/api/comments')
+        fetch('/api/comment')
             .then(response => response.json())
             .then(comments => this.setState({comments}));
     }
@@ -189,60 +188,14 @@ export default class App extends React.Component {
         this.refreshComments();
     }
 
+
     render() {
         return (
             <React.Fragment>
                 <div class="blok-common">
                     <div class="blok-1">
-                        <div class="blok-book">
-                            <Header title={'Books'}/>
-                            <table class="book">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Author</th>
-                                    <th>Genre</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <td></td>
-                                <td><input id="bookName" value={this.state.newBook.name}
-                                onChange={evt => this.setNewBookName(evt.target.value)}/></td>
-                                <td><select id="bookAuthorId" onChange={evt => this.setNewBookAuthor(evt.target.value)} value={this.state.newBook.authorId}>{this.state.authors.map((author) => ( <option value={author.id}>{author.name}</option>))}</select></td>
-                                <td><select id="bookGenreId" onChange={evt => this.setNewBookGenre(evt.target.value)}>{this.state.genres.map((genre) => ( <option value={genre.id}>{genre.name}</option>))}</select></td>
-                                <td><button class="button btn_add" onClick={(e) => this.handleAddBook()}>Add</button></td>
-                                {
-                                    this.state.books.map((book, i) => (
-                                        <tr key={i}>
-                                            <td>{book.id}</td>
-                                            <td><input value={book.name} onChange={(e) => this.handleEditBookName(book.id, e.target.value)}/></td>
-                                            <td>
-                                               <select value={book.authorId} onChange={(e) => this.handleEditBookAuthor(book.id, e.target.value)}>
-                                                   {this.state.authors.map((author) => (
-                                                     <option value={author.id}>{author.name}</option>
-                                                   ))}
-                                               </select>
-                                            </td>
-                                            <td>
-                                                <select value={book.genreId} onChange={(e) => this.handleEditBookGenre(book.id, e.target.value)}>
-                                                    {this.state.genres.map((genre) => (
-                                                    <option value={genre.id}>{genre.name}</option>
-                                                    ))}
-                                                </select>
-                                            </td>
-                                            <td><button class="button btn_edit" onClick={(e) => this.handleSaveBook(book.id)}>OK</button>
-
-                                            <button class="button btn_delete" onClick={(e) => this.handleDeleteBookRow(book.id)}>Delete</button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                }
-                                </tbody>
-                            </table>
-                        </div>
+                        <Book authors={this.state.authors} genres={this.state.genres} refreshComments={this.refreshComments.bind(this)}
+                             refreshBookInApp={this.refreshBooks.bind(this)}/>
 
                         <div class="blok-comment">
                             <Header title={'Comments'}/>

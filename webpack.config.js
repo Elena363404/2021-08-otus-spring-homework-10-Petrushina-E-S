@@ -4,11 +4,14 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: './src/ui/index.js',
+    devtool: 'inline-source-map',
     output: {
         path: path.resolve(__dirname, 'target/classes/public/'),
-        filename: 'bundle.min.js',
+        filename: 'bundle.js',
         libraryTarget: 'umd'
     },
+
+
 
     module: {
         loaders: [

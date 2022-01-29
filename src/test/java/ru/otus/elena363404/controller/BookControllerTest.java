@@ -38,7 +38,7 @@ public class BookControllerTest {
 
     Mockito.when(bookService.saveBook(Mockito.any())).thenReturn(book);
     mockMvc.perform(
-        post("/book")
+        post("/api/book")
           .content(objectMapper.writeValueAsString(book))
           .contentType(MediaType.APPLICATION_JSON)
       )

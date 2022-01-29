@@ -1,7 +1,6 @@
 package ru.otus.elena363404.rest;
 
 import lombok.AllArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.rest.dto.BookDto;
@@ -18,30 +17,26 @@ import static ru.otus.elena363404.rest.dto.BookDto.bookToBookDto;
 public class BookController {
   private final BookService bookService;
 
-  @PutMapping("/book/{id}")
-  public String editBook(@RequestBody BookDto bookDto, Model model) {
+  @PutMapping("/api/book/{id}")
+  public BookDto editBook(@RequestBody BookDto bookDto) {
     Book book = bookDtoToBook(bookDto);
     Book saved = bookService.saveBook(book);
-    model.addAttribute(bookToBookDto(saved));
-    return "redirect:/";
+    return bookToBookDto(saved);
   }
 
-  @PostMapping("/book")
-  public String addBook(@RequestBody BookDto bookDto, Model model) {
+  @PostMapping("/api/book")
+  public Book addBook(@RequestBody BookDto bookDto) {
     Book book = bookDtoToBook(bookDto);
     Book saved = bookService.saveBook(book);
-    model.addAttribute(bookToBookDto(saved));
-    return "redirect:/";
+    return saved;
   }
 
-  @DeleteMapping("/book/{id}")
-  public String deleteBook(@PathVariable("id") long id) throws Exception {
-
+  @DeleteMapping("/api/book/{id}")
+  public void deleteBook(@PathVariable("id") long id) {
     bookService.deleteBook(id);
-    return "redirect:/";
   }
 
-  @GetMapping("/api/books")
+  @GetMapping("/api/book")
   public List<BookDto> getAllBooks() {
     return bookService.getAllBook().stream().map(BookDto::bookToBookDto).collect(Collectors.toList());
   }
