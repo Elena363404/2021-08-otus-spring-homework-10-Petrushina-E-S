@@ -9,7 +9,6 @@ export default class Book extends React.Component {
     constructor(props) {
         super();
         this.state = {books: [], newBook: {}};
-        console.log(props);
     }
 
 
@@ -58,7 +57,7 @@ export default class Book extends React.Component {
     handleDeleteBookRow(id) {
         fetch(`/api/book/${id}`, {method: 'DELETE'})
             .then(() => this.refreshBooks())
-            .then(() => this.refreshComments());
+            .then(() => this.props.refreshComments());
     }
 
     refreshBooks() {
@@ -95,11 +94,9 @@ export default class Book extends React.Component {
             .then(comments => this.setState({comments}));
     }
 
-// Load Main Page
     componentDidMount() {
         this.refreshBooks();
     }
-
 
     render() {
         return (
