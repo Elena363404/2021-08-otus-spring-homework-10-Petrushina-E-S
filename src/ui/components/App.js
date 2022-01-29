@@ -54,17 +54,18 @@ export default class App extends React.Component {
             <React.Fragment>
                 <div class="blok-common">
                     <div class="blok-1">
-                        <Book authors={this.state.authors} genres={this.state.genres} refreshComments={this.refreshComments.bind(this)}
+                        <Book books={this.state.books} authors={this.state.authors} genres={this.state.genres} refreshCommentInApp={this.refreshComments.bind(this)}
                              refreshBookInApp={this.refreshBooks.bind(this)}/>
 
-                        <Comment books={this.state.books}/>
+                        <Comment comments={this.state.comments} books={this.state.books} refreshCommentInApp={this.refreshComments.bind(this)}/>
                     </div>
 
                     <div class="blok-2">
 
-                        <Author refreshBooks={this.refreshBooks.bind(this)} refreshAuthorInApp={this.refreshAuthors.bind(this)}/>
+                        <Author authors={this.state.authors} refreshAuthorInApp={this.refreshAuthors.bind(this)} refreshBookInApp={this.refreshBooks.bind(this)}
+                        />
 
-                        <Genre refreshBooks={this.refreshBooks.bind(this)} refreshGenreInApp={this.refreshGenres.bind(this)}/>
+                        <Genre genres={this.state.genres} refreshGenreInApp={this.refreshGenres.bind(this)} refreshBookInApp={this.refreshBooks.bind(this)}/>
 
                     </div>
                 </div>

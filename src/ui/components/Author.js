@@ -12,7 +12,11 @@ export default class Author extends React.Component {
     }
 
     componentDidMount() {
-        this.refreshAuthors();
+        this.props.refreshAuthorInApp();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({authors: nextProps.authors});
     }
 
     handleEditAuthor(id, authorName) {
@@ -28,14 +32,13 @@ export default class Author extends React.Component {
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(author)
              })
-             .then(() => this.refreshAuthors())
              .then(() => this.props.refreshAuthorInApp());
     }
 
     handleDeleteAuthorRow(id) {
         fetch(`/api/author/${id}`, {method: 'DELETE'})
-            .then(() => this.refreshAuthors())
-            .then(() => this.props.refreshBooks());
+            .then(() => this.props.refreshBookInApp())
+            .then(() => this.props.refreshAuthorInApp())
     }
 
     refreshAuthors() {

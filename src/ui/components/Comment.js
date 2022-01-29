@@ -15,6 +15,10 @@ export default class Comment extends React.Component {
         this.refreshComments();
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({comments: nextProps.comments});
+    }
+
     refreshComments() {
         fetch('/api/comment')
             .then(response => response.json())
@@ -40,12 +44,12 @@ export default class Comment extends React.Component {
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(comment)
              })
-             .then(() => this.refreshComments());
+             .then(() => this.props.refreshCommentInApp());
     }
 
     handleDeleteCommentRow(id) {
         fetch(`/api/comment/${id}`, {method: 'DELETE'})
-            .then(() => this.refreshComments());
+            .then(() => this.props.refreshCommentInApp());
     }
 
     render() {

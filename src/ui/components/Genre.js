@@ -12,7 +12,11 @@ export default class Genre extends React.Component {
     }
 
     componentDidMount() {
-        this.refreshGenres();
+        this.props.refreshGenreInApp();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({genres: nextProps.genres});
     }
 
     refreshGenres() {
@@ -34,14 +38,13 @@ export default class Genre extends React.Component {
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(genre)
              })
-             .then(() => this.refreshGenres())
              .then(() => this.props.refreshGenreInApp());
     }
 
     handleDeleteGenreRow(id) {
         fetch(`/api/genre/${id}`, {method: 'DELETE'})
-            .then(() => this.refreshGenres())
-            .then(() => this.props.refreshBooks());
+            .then(() => this.props.refreshGenreInApp())
+            .then(() => this.props.refreshBookInApp());
     }
 
     render() {

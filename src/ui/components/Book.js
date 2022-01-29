@@ -11,9 +11,15 @@ export default class Book extends React.Component {
         this.state = {books: [], newBook: {}};
     }
 
+    componentWillReceiveProps(nextProps) {
+      this.setState({books: nextProps.books});
+    }
+
+    componentDidMount() {
+        this.props.refreshBookInApp();
+    }
 
 //    BOOK
-
     handleEditBookName(id, bookName) {
         var book = this.state.books.find(a => a.id === id);
         book.name = bookName;
@@ -38,7 +44,7 @@ export default class Book extends React.Component {
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(this.state.newBook)
              })
-             .then(() => this.refreshBooks())
+             .then(() => this.props.refreshBookInApp())
              .then(() => this.refreshNewBook());
     }
 
@@ -49,21 +55,14 @@ export default class Book extends React.Component {
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify(book)
              })
-             .then(() => this.refreshBooks())
              .then(() => this.props.refreshBookInApp())
-             .then(() => this.props.refreshComments());
+             .then(() => this.props.refreshCommentInApp());
     }
 
     handleDeleteBookRow(id) {
         fetch(`/api/book/${id}`, {method: 'DELETE'})
-            .then(() => this.refreshBooks())
-            .then(() => this.props.refreshComments());
-    }
-
-    refreshBooks() {
-        fetch('/api/book')
-            .then(response => response.json())
-            .then(books => this.setState({books}));
+            .then(() => this.props.refreshBookInApp())
+            .then(() => this.props.refreshCommentInApp());
     }
 
     refreshNewBook() {
@@ -88,15 +87,6 @@ export default class Book extends React.Component {
         this.setState({newBook});
     }
 
-    refreshComments() {
-        fetch('/api/comment')
-            .then(response => response.json())
-            .then(comments => this.setState({comments}));
-    }
-
-    componentDidMount() {
-        this.refreshBooks();
-    }
 
     render() {
         return (
