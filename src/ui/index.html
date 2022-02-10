@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Library</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .blok-1, .blok-2 {
+            display: flex;
+            flex-flow: row wrap;
+        }
+
+        .blok-book, .blok-comment, .blok-author, .blok-genre {
+          flex: 1;
+        }
+
+        .book, .author, .genre, .comment, .book td, .author td, .genre td, .comment td {
+            border: 1px solid blue;
+            padding: 5px;
+            text-align:center;
+        }
+
+        .btn {
+            color: white;
+            text-align: center;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+
+        .button {
+            color: white;
+            text-align: center;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+        }
+
+        .btn_edit {
+           background-color: #008CBA;
+        }
+
+        .btn_delete {
+           background-color: #f44336;
+        }
+
+        .btn_add {
+           padding: 5px 10px;
+           background-color: #4CAF50;
+        }
+
+        .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+    </style>
+  </head>
+    <body>
+      <noscript>
+        You need to enable JavaScript to run this app.
+      </noscript>
+
+      <div id="root"></div>
+      <script src="./bundle.js" type="text/javascript"></script>
+    </body>
+</html>
